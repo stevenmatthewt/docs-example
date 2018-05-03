@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  version: 0.0.0
+  title: Visitor Recommendations Service
+  contact:
+    email: JobsDevelopment@careerbuilder.com
+externalDocs:
+  description: Source Code
+  url: 'https://github.com/cbdr/visitor-recs-js'
+paths:
+  /wants:
+    post:
+      summary: Search for Job Listings based on the desired 'Wants' information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/wantsPost'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/wantsResponse'
+servers:
+  - url: https://api.careerbuilder.com/consumer/recommendations
+    description: Production
+  - url: https://wwwtest.api.careerbuilder.com/consumer/recommendations
+    description: Testing
+components:
+  schemas:
+    wantsPost:
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/title'
+        locationFilters:
+          $ref: '#/components/schemas/locationFilters'
+        compensationFilter:
+          $ref: '#/components/schemas/compensationFilter'
+        count:
+          $ref: '#/components/schemas/count'
+    title:
+      type: array
+      items:
+        type: string
+      description: >-
+        An array of titles to search for
+    locationFilters:
+      type: object
+      description: >-
+        locationFilters object defined by Google spec
+    compensationFilter:
+      type: object
+      description: >-
+        compensationFilter object defined by Google spec
+    count:
+      type: integer
+      description: >-
+        Number of results to retrieve
+    wantsResponse:
+      type: object
